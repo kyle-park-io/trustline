@@ -2,7 +2,9 @@
 
 # trustline
 
-[![npm](https://img.shields.io/npm/v/trustline-scanner?logo=npm)](https://www.npmjs.com/package/trustline-scanner) [![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Trustline-2088FF?logo=github)](https://github.com/marketplace/actions/trustline-off-chain-scan)
+[![npm](https://img.shields.io/npm/v/trustline-scanner?logo=npm)](https://www.npmjs.com/package/trustline-scanner) [![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Trustline-2088FF?logo=github)](https://github.com/marketplace/actions/trustline-off-chain-scan) [![Demo](https://img.shields.io/badge/데모_영상-YouTube-FF0000?logo=youtube)](https://youtu.be/ACdar3TTPXI)
+
+▶ 데모 영상: https://youtu.be/ACdar3TTPXI
 
 오프체인 인프라 보안 스캐너. 한 번의 침해를 Web3 프로젝트 오프체인 스택(프론트엔드,
 클라우드, DNS, 시크릿) 전체 장악으로 번지게 만드는 설정 실수를 찾아냅니다.

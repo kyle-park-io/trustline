@@ -2,7 +2,9 @@
 
 # trustline
 
-[![npm](https://img.shields.io/npm/v/trustline-scanner?logo=npm)](https://www.npmjs.com/package/trustline-scanner) [![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Trustline-2088FF?logo=github)](https://github.com/marketplace/actions/trustline-off-chain-scan)
+[![npm](https://img.shields.io/npm/v/trustline-scanner?logo=npm)](https://www.npmjs.com/package/trustline-scanner) [![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Trustline-2088FF?logo=github)](https://github.com/marketplace/actions/trustline-off-chain-scan) [![Demo](https://img.shields.io/badge/Demo-YouTube-FF0000?logo=youtube)](https://youtu.be/ACdar3TTPXI)
+
+▶ Demo video: https://youtu.be/ACdar3TTPXI
 
 Off-chain infrastructure security scanner. It finds the configuration mistakes
 that turn a single breach into full compromise of a Web3 project's off-chain

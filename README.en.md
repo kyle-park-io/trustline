@@ -250,11 +250,12 @@ public chain data.
 
 ## AI usage
 
-AI assistance (Anthropic's Claude) was used throughout: writing and refactoring
-the scanner and tests, analyzing the source incident, and the read-only on-chain
-forensics that motivate the checks. Every finding, number, and on-chain claim
-was verified against a primary source or live data before it was included, and
-the author reviewed the result.
+The author led the incident response, investigation, and design decisions; AI
+(Anthropic's Claude) was used as a tool where it helped most: drafting and
+refactoring the scanner and tests, analyzing the incident, and the read-only
+on-chain forensics behind the checks. Every finding, number, and on-chain claim
+was verified against a primary source or live data before inclusion, and the
+author reviewed the result.
 
 ## Notes
 

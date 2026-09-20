@@ -1,0 +1,14 @@
+[
+  {
+    "name": "projects/example-project/serviceAccounts/deploy-sa@example-project.iam.gserviceaccount.com/keys/aaaa1111",
+    "keyType": "USER_MANAGED",
+    "validAfterTime": "2024-10-14T07:02:04Z",
+    "validBeforeTime": "9999-12-31T23:59:59Z"
+  },
+  {
+    "name": "projects/example-project/serviceAccounts/deploy-sa@example-project.iam.gserviceaccount.com/keys/bbbb2222",
+    "keyType": "SYSTEM_MANAGED",
+    "validAfterTime": "2026-04-01T21:25:05Z",
+    "validBeforeTime": "2027-04-01T21:25:05Z"
+  }
+]

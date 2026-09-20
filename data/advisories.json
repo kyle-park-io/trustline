@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "name": "trustline curated dependency advisories (incident-anchored)",
+    "updated": "2026-09-20",
+    "source": "Anchored to this incident's entry point and to a well-known Web3 supply-chain compromise. This is a deliberately small, curated set (not a general npm-audit): every entry maps to a documented dApp-layer attack.",
+    "matching": "Compares the version declared in package.json (dependencies, devDependencies, optionalDependencies, peerDependencies) against the affected version list, after stripping leading range operators. Lockfile-aware resolution of ranges is future work."
+  },
+  "advisories": [
+    {
+      "id": "CVE-2025-55182",
+      "title": "React2Shell: unauthenticated RCE in React Server Components (Flight payload deserialization)",
+      "prefix": "react-server-dom-",
+      "packages": ["react-server-dom-webpack", "react-server-dom-turbopack", "react-server-dom-parcel"],
+      "versions": ["19.0.0", "19.0", "19.1.0", "19.1.1", "19.2.0"],
+      "severity": "critical",
+      "fix": "Upgrade react-server-dom-* past the affected versions (19.1.2 / 19.2.1 or later) and redeploy.",
+      "chain": "This is the exact entry point of this incident: one crafted request runs code on the Node server with no authentication, handing over the whole process and letting every downstream config mistake turn into full compromise."
+    },
+    {
+      "id": "GHSA-ledger-connect-kit-2023",
+      "title": "Malicious @ledgerhq/connect-kit versions ship a wallet drainer (2023 supply-chain compromise)",
+      "packages": ["@ledgerhq/connect-kit"],
+      "versions": ["1.1.5", "1.1.6", "1.1.7"],
+      "severity": "critical",
+      "fix": "Upgrade @ledgerhq/connect-kit to 1.1.8 or later and audit any wallet interactions that loaded the affected version.",
+      "chain": "A compromised npm account pushed drainer code into this dependency, so every dApp that loaded it drained visitors' wallets straight from the front end, no contract bug required."
+    }
+  ]
+}

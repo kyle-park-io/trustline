@@ -1,0 +1,20 @@
+[
+  {
+    "name": "default-allow-ssh",
+    "direction": "INGRESS",
+    "sourceRanges": ["0.0.0.0/0"],
+    "allowed": [{ "IPProtocol": "tcp", "ports": ["22"] }]
+  },
+  {
+    "name": "default-allow-rdp",
+    "direction": "INGRESS",
+    "sourceRanges": ["0.0.0.0/0"],
+    "allowed": [{ "IPProtocol": "tcp", "ports": ["3389"] }]
+  },
+  {
+    "name": "allow-web",
+    "direction": "INGRESS",
+    "sourceRanges": ["0.0.0.0/0"],
+    "allowed": [{ "IPProtocol": "tcp", "ports": ["80", "443"] }]
+  }
+]

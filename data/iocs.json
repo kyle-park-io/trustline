@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "name": "EtherRAT incident IOC set",
+    "updated": "2026-09-19",
+    "source": "On-chain forensics from the 2026-09 GCE compromise investigation.",
+    "scope": "Attacker-controlled indicators only. Legitimate services that were abused (exchange hot wallets, third-party swap routers, bridges) are deliberately left out so scanning them raises nothing. Decoded C2 endpoints are strings only; they were never contacted.",
+    "docs": [
+      "onchain-c2-cluster-2026-09-17.md",
+      "onchain-poisoning-drainer-2026-09-18.md",
+      "onchain-wemix-2026-trace.md"
+    ]
+  },
+  "addresses": [
+    { "value": "0x22f96d61cf118efabc7c5bf3384734fad2f6ead4", "chain": "ethereum", "severity": "critical", "role": "EtherRAT C2 contract #2 (this incident's C2)" },
+    { "value": "0x40A7d723F5Df6c88464bC95DBf7D96573fBc4f85", "chain": "ethereum", "severity": "critical", "role": "EtherRAT C2 contract #1" },
+    { "value": "0xF1f3Ac96E49F6a71D031444E59268c27B3511914", "chain": "ethereum", "severity": "critical", "role": "EtherRAT C2 contract #3" },
+    { "value": "0x14afdDD627Fb0e039365554f8bbDB881eCb1C708", "chain": "ethereum", "severity": "high", "role": "C2 fleet funding hub (gas source)" },
+    { "value": "0xE941A9b283006F5163EE6B01c1f23AA5951c4C8D", "chain": "ethereum", "severity": "high", "role": "C2 #2 operator (setString sender)" },
+    { "value": "0xF3947eeB5DB984E9498DA449c13305ed27428Bc0", "chain": "ethereum", "severity": "high", "role": "C2 #3 deployer / drain EOA" },
+    { "value": "0x0D8d78DE62cf7533f3511A7d56E7758e2Bd1E8c6", "chain": "ethereum", "severity": "critical", "role": "Address-poisoning drainer collector" },
+    { "value": "0x531dDc18bb450303B0A0F96173837392fC4Ae29F", "chain": "ethereum", "severity": "critical", "role": "Address-poisoning drainer collector" },
+    { "value": "0x8992a23b888d9b08a11760f5d384acb3e86cd5e0", "chain": "ethereum", "severity": "critical", "role": "Address-poisoning drainer collector" },
+    { "value": "0xad2c4d7682cd89f2e138941367fbcd3ceb9a85cc", "chain": "ethereum", "severity": "critical", "role": "Address-poisoning drainer collector" },
+    { "value": "0x2271f50d570c2638cf57b295b958f4502e99c8ef", "chain": "ethereum", "severity": "critical", "role": "Address-poisoning drainer hub / collector" },
+    { "value": "0xd4dcc686b8ae1469f5da7efde5d15c69ecc2187e", "chain": "ethereum", "severity": "critical", "role": "Address-poisoning drainer master sink" },
+    { "value": "0x48c4a04898ce062da511329a3b63f31cfe36febf", "chain": "ethereum", "severity": "high", "role": "Address-poisoning drainer staging" },
+    { "value": "0x187fe1a8b76c60b85c00a2819152ff00ff642386", "chain": "ethereum", "severity": "high", "role": "Drainer off-ramp intermediary" },
+    { "value": "0xc921a66e30745f11f8c7a7870e95640607ae7ea2", "chain": "ethereum", "severity": "critical", "role": "WEMIX 2026 unauthorized-mint attacker" },
+    { "value": "0x3AE77dA550B211f05Faa481Bd217526BF274b288", "chain": "ethereum", "severity": "high", "role": "WEMIX attacker dormant holding" },
+    { "value": "0xd90e2f925da726b50c4ed8d0fb90ad053324f31b", "chain": "ethereum", "severity": "high", "role": "Tornado Cash router used for laundering" }
+  ],
+  "endpoints": [
+    { "value": "api-gateway-prod.com", "kind": "domain", "severity": "critical", "role": "EtherRAT C2 #1, written on-chain via setString" },
+    { "value": "api-gateway-softupdate.io", "kind": "domain", "severity": "critical", "role": "EtherRAT C2 #3, written on-chain via setString" },
+    { "value": "173.249.8.102", "kind": "ip", "severity": "critical", "role": "EtherRAT C2 #2, written on-chain via setString" },
+    { "value": "91.215.85.42", "kind": "ip", "severity": "critical", "role": "EtherRAT C2 #2, written on-chain via setString" },
+    { "value": "grabify.link/SEFKGU", "kind": "url", "severity": "critical", "role": "EtherRAT C2 #2 tracking link, written on-chain via setString" }
+  ],
+  "selectors": [
+    { "value": "0x7fcaf666", "severity": "high", "role": "setString: the on-chain C2-write pattern EtherRAT uses to rotate its C2" }
+  ],
+  "spoofStrings": [
+    { "value": "ƐТН", "severity": "high", "role": "Homoglyph token spoof (address-poisoning bait for ETH)" },
+    { "value": "∪ꓢⅮⅭ", "severity": "high", "role": "Homoglyph token spoof (address-poisoning bait for USDC)" },
+    { "value": "ЕΤℋ", "severity": "high", "role": "Homoglyph token spoof (address-poisoning bait for ETH)" },
+    { "value": "EꓔH", "severity": "high", "role": "Homoglyph token spoof (address-poisoning bait for ETH)" },
+    { "value": "ꓰꓔℋ", "severity": "high", "role": "Homoglyph token spoof (address-poisoning bait for ETH)" }
+  ],
+  "baitTokens": ["ANTHROPIC", "xAI", "Gemini3", "ChatGpt", "MetaAI", "FlashLoan", "SPX", "UniLife"]
+}

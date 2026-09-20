@@ -1,0 +1,51 @@
+name: Trustline off-chain scan
+description: Scan an off-chain infra/config directory before deploy and emit SARIF for GitHub code scanning.
+author: kyle-park-io
+branding:
+  icon: shield
+  color: blue
+
+inputs:
+  path:
+    description: Directory to scan (repo / build output / exported config).
+    required: false
+    default: "."
+  sarif-file:
+    description: Path to write the SARIF 2.1.0 report to.
+    required: false
+    default: trustline.sarif
+  fail-on-findings:
+    description: Fail the step when a critical or high finding is present.
+    required: false
+    default: "true"
+
+outputs:
+  sarif-file:
+    description: Path of the written SARIF report.
+    value: ${{ inputs.sarif-file }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+
+    - name: Build trustline
+      shell: bash
+      run: |
+        cd "$GITHUB_ACTION_PATH"
+        corepack enable
+        pnpm install --frozen-lockfile
+        pnpm build
+
+    - name: Run scan
+      shell: bash
+      run: |
+        set +e
+        node "$GITHUB_ACTION_PATH/dist/src/cli.js" scan "${{ inputs.path }}" --sarif > "${{ inputs.sarif-file }}"
+        code=$?
+        echo "trustline exit code: $code"
+        if [ "${{ inputs.fail-on-findings }}" = "true" ]; then exit "$code"; fi
+        exit 0

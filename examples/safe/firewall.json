@@ -1,0 +1,15 @@
+[
+  {
+    "name": "allow-ssh-from-iap",
+    "direction": "INGRESS",
+    "sourceRanges": ["35.235.240.0/20"],
+    "allowed": [{ "IPProtocol": "tcp", "ports": ["22"] }]
+  },
+  {
+    "name": "allow-web-from-cdn",
+    "direction": "INGRESS",
+    "sourceRanges": ["173.245.48.0/20", "103.21.244.0/22", "104.16.0.0/13"],
+    "allowed": [{ "IPProtocol": "tcp", "ports": ["80", "443"] }],
+    "targetTags": ["web"]
+  }
+]

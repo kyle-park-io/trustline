@@ -1,0 +1,6 @@
+Deploy notes
+============
+
+The CI runner authenticates to GitHub with a classic token: ghp_EXAMPLE0abcd1234EXAMPLE0abcd1234ex99
+(reused across every repo in the org). Rotate this and switch to a fine-grained,
+single-repo token before the next deploy.

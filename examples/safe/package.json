@@ -1,0 +1,13 @@
+{
+  "name": "safe-dapp-example",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "next": "15.0.3",
+    "react": "19.1.2",
+    "react-dom": "19.1.2",
+    "react-server-dom-webpack": "^19.1.2",
+    "@ledgerhq/connect-kit": "1.1.8",
+    "ethers": "6.13.2"
+  }
+}

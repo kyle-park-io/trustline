@@ -1,0 +1,20 @@
+{
+  "name": "trustline",
+  "version": "0.1.0",
+  "description": "Off-chain infrastructure security scanner: finds the config mistakes that turn one breach into full compromise.",
+  "packageManager": "pnpm@11.25.0",
+  "bin": {
+    "trustline": "dist/src/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "scan": "pnpm build && node dist/src/cli.js scan",
+    "investigate": "pnpm build && node dist/src/cli.js investigate-c2",
+    "test": "pnpm build && node dist/test/run.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^22.7.0"
+  }
+}

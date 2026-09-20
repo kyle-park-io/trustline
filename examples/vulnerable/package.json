@@ -1,0 +1,13 @@
+{
+  "name": "vulnerable-dapp-example",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "next": "15.0.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "react-server-dom-webpack": "^19.1.1",
+    "@ledgerhq/connect-kit": "1.1.6",
+    "ethers": "6.13.2"
+  }
+}

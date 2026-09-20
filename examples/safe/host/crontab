@@ -1,0 +1,3 @@
+# crontab for user (exported: crontab -l)
+0 0 * * * /usr/bin/certbot renew --quiet
+*/5 * * * * /usr/bin/node /srv/app/healthcheck.js

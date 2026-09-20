@@ -1,0 +1,12 @@
+{
+  "name": "app-server-1",
+  "machineType": "e2-small",
+  "serviceAccounts": [
+    {
+      "email": "deploy-sa@example-project.iam.gserviceaccount.com",
+      "scopes": [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+    }
+  ]
+}

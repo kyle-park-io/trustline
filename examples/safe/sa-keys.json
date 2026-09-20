@@ -1,0 +1,8 @@
+[
+  {
+    "name": "projects/example-project/serviceAccounts/rpi-ip-lookup@example-project.iam.gserviceaccount.com/keys/cccc3333",
+    "keyType": "SYSTEM_MANAGED",
+    "validAfterTime": "2026-04-01T21:25:05Z",
+    "validBeforeTime": "2027-04-01T21:25:05Z"
+  }
+]

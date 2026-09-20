@@ -1,0 +1,24 @@
+{
+  "bindings": [
+    {
+      "role": "roles/owner",
+      "members": ["user:owner@example.test"]
+    },
+    {
+      "role": "roles/owner",
+      "members": ["serviceAccount:deploy-sa@example-project.iam.gserviceaccount.com"]
+    },
+    {
+      "role": "roles/editor",
+      "members": ["serviceAccount:123456-compute@developer.gserviceaccount.com"]
+    }
+  ],
+  "auditConfigs": [
+    {
+      "service": "allServices",
+      "auditLogConfigs": [
+        { "logType": "ADMIN_READ" }
+      ]
+    }
+  ]
+}

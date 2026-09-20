@@ -1,0 +1,10 @@
+[Unit]
+Description=App server
+
+[Service]
+Type=simple
+Restart=on-failure
+ExecStart=/usr/bin/node /srv/app/server.js
+
+[Install]
+WantedBy=default.target

@@ -2,6 +2,8 @@
 
 # trustline
 
+[![npm](https://img.shields.io/npm/v/trustline-scanner?logo=npm)](https://www.npmjs.com/package/trustline-scanner) [![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Trustline-2088FF?logo=github)](https://github.com/marketplace/actions/trustline-off-chain-scan)
+
 오프체인 인프라 보안 스캐너. 한 번의 침해를 Web3 프로젝트 오프체인 스택(프론트엔드,
 클라우드, DNS, 시크릿) 전체 장악으로 번지게 만드는 설정 실수를 찾아냅니다.
 
@@ -135,7 +137,7 @@ jobs:
       security-events: write   # required to upload SARIF
     steps:
       - uses: actions/checkout@v4
-      - uses: kyle-park-io/trustline@main
+      - uses: kyle-park-io/trustline@v0.1.0
         with:
           path: .
           fail-on-findings: "true"

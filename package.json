@@ -1,18 +1,49 @@
 {
-  "name": "trustline",
+  "name": "trustline-scanner",
   "version": "0.1.0",
   "description": "Off-chain infrastructure security scanner: finds the config mistakes that turn one breach into full compromise.",
   "packageManager": "pnpm@11.25.0",
   "bin": {
     "trustline": "dist/src/cli.js"
   },
+  "files": [
+    "dist",
+    "data",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "tsc",
+    "prepare": "tsc",
     "scan": "pnpm build && node dist/src/cli.js scan",
     "investigate": "pnpm build && node dist/src/cli.js investigate-c2",
     "test": "pnpm build && node dist/test/run.js"
   },
+  "keywords": [
+    "security",
+    "web3",
+    "dapp",
+    "off-chain",
+    "scanner",
+    "sast",
+    "sarif",
+    "supply-chain",
+    "ci"
+  ],
+  "author": "kyle-park-io",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyle-park-io/trustline.git"
+  },
+  "homepage": "https://github.com/kyle-park-io/trustline#readme",
+  "bugs": {
+    "url": "https://github.com/kyle-park-io/trustline/issues"
+  },
   "devDependencies": {
     "typescript": "^5.6.3",
     "@types/node": "^22.7.0"

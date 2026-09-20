@@ -10,6 +10,27 @@ Built from a real incident: a Next.js app was hit by an unauthenticated RCE
 (React2Shell), and the damage could spread only because of a chain of config
 mistakes. trustline checks for exactly those mistakes, before deploy.
 
+## Quick start
+
+Run it against your own repo with no install (Node 18+):
+
+```bash
+npx trustline-scanner scan .                       # scan the current dir's off-chain config
+npx trustline-scanner scan . --html > report.html  # shareable HTML report
+npx trustline-scanner scan . --sarif > out.sarif   # SARIF for GitHub code scanning
+```
+
+Before it is on npm, or for the latest source, run it straight from GitHub:
+
+```bash
+npx github:kyle-park-io/trustline scan .
+```
+
+You can hand this to an AI agent as-is: "before deploy, run
+`npx trustline-scanner scan .` and fix anything critical/high." A non-zero exit
+code means there is something to fix. `scan` is fully offline, so your code never
+leaves the machine.
+
 ## Why
 
 dApp security attention goes to smart contracts, but real incidents often break

@@ -2,12 +2,32 @@
 
 # trustline
 
-오프체인 인프라 보안 스캐너. 한 번의 침해를 Web3 프로젝트 오프체인 스택(프런트엔드,
+오프체인 인프라 보안 스캐너. 한 번의 침해를 Web3 프로젝트 오프체인 스택(프론트엔드,
 클라우드, DNS, 시크릿) 전체 장악으로 번지게 만드는 설정 실수를 찾아냅니다.
 
 실제 사고에서 출발했습니다. Next.js 앱이 인증 없는 RCE(React2Shell)에 뚫렸고, 피해가
 번질 수 있었던 건 설정 실수가 연쇄로 이어졌기 때문입니다. trustline은 바로 그 실수들을
 출시 전에 점검합니다.
+
+## 빠른 시작
+
+설치 없이, 자기 저장소에서 바로 실행합니다 (Node 18+):
+
+```bash
+npx trustline-scanner scan .                       # 현재 폴더의 오프체인 설정을 점검
+npx trustline-scanner scan . --html > report.html  # 공유용 HTML 리포트
+npx trustline-scanner scan . --sarif > out.sarif   # GitHub 코드 스캐닝용 SARIF
+```
+
+npm 배포 전이거나 최신 소스를 쓰고 싶으면 GitHub에서 직접 실행할 수도 있습니다:
+
+```bash
+npx github:kyle-park-io/trustline scan .
+```
+
+AI 에이전트에게 그대로 시켜도 됩니다: "배포 전에 `npx trustline-scanner scan .`를
+돌려서 critical/high가 나오면 고쳐줘." 종료 코드가 0이 아니면 잡을 게 있다는 뜻입니다.
+`scan`은 완전히 오프라인이라 코드를 밖으로 보내지 않습니다.
 
 ## 왜
 

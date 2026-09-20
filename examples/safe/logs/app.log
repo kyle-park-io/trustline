@@ -1,0 +1,4 @@
+2026-09-14T05:33:00Z INFO server started on 127.0.0.1:3001
+2026-09-14T05:34:00Z INFO GET /login 200 12ms
+2026-09-14T05:34:02Z INFO GET /api/portfolio/balances 401 (no session)
+2026-09-14T05:35:00Z INFO certbot renew: no certificates due for renewal

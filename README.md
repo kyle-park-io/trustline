@@ -59,7 +59,7 @@ dApp 보안의 관심은 스마트 컨트랙트로 쏠리지만, 실제 사고�
 ## 모듈 (v0.1)
 
 모듈은 세 축으로 돕니다. **반경 최소화**(한 번의 침해가 번지지 않게), **탐지**(침해와
-그것을 가리는 사각을 잡기), **대조**(이 인프라가 이미 알려진 공격자 영역에 닿아 있는가).
+그것을 가리는 사각을 잡기), **대조**(이 인프라가 이미 알려진 공격자 영역과 연결돼 있는가).
 
 
 - `vulnerable-dependency`: 선언된 버전이 알려진 취약 릴리스와 일치하는 의존성을,
@@ -99,10 +99,10 @@ dApp 보안의 관심은 스마트 컨트랙트로 쏠리지만, 실제 사고�
 - `known-ioc`: 이번 사고의 온체인 포렌식에서 뽑은 알려진 악성 지표와 파일을 대조합니다.
   EtherRAT C2 컨트랙트와 엔드포인트(도메인, IP), 주소 포이즈닝 드레이너 지갑, WEMIX
   세탁 경로, `setString` C2 기록 셀렉터, 호모글리프 위조 토큰 문자열. 설정이 위험한지
-  판단하는 다른 모듈과 달리, 이 모듈은 인프라가 이미 공격자가 통제하는 영역에 닿아 있는지
+  판단하는 다른 모듈과 달리, 이 모듈은 인프라가 이미 공격자가 통제하는 영역과 연결돼 있는지
   묻습니다. 한 건만 맞아도 냄새가 아니라 침해 가능성입니다. 데이터셋
   ([`data/iocs.json`](data/iocs.json))은 공격자 통제 지표만 담습니다. 악용됐던 정상
-  서비스(거래소 핫월렛, 스왑 라우터, 브리지)는 스캔해도 아무것도 뜨지 않도록 일부러
+  서비스(거래소 핫월렛, 스왑 라우터, 브릿지)는 스캔해도 아무것도 뜨지 않도록 일부러
   제외했습니다.
 
 향후 계획: 락파일 기반 버전 매칭을 갖춘 더 넓은 어드바이저리 셋, 컨테이너 이미지에 구운
@@ -120,6 +120,37 @@ node dist/src/cli.js scan <dir> --sarif > trustline.sarif  # SARIF 2.1.0
 ```
 
 critical 또는 high가 하나라도 있으면 종료코드가 0이 아니라서, 그대로 CI에 붙습니다.
+
+## 구조
+
+저장소 맨 위에서 세 단계까지의 폴더와 맨 위 파일을 적었습니다. 경로는 저장소 루트에서 셉니다.
+`examples/` 아래 파일은 모두 합성한 값이고, 실제 시크릿과 호스트명은 없습니다.
+
+```
+.github/workflows/       이 저장소의 CI. push와 PR마다 pnpm build와 pnpm test를 돌린다
+data/                    scan이 대조하는 데이터. advisories.json(의존성 어드바이저리), iocs.json(알려진 악성 지표)
+examples/                scan을 시험하는 합성 입력. 조치 전과 조치 후 한 쌍
+  safe/                  조치 후. scan하면 0건, 종료코드 0
+    host/                호스트 설정 사본. crontab, .bashrc
+    logs/                애플리케이션 로그(app.log)
+    public/              브라우저에 내려가는 빌드 산출물(app.bundle.js). 시크릿이 없다
+  vulnerable/            조치 전. scan하면 critical 18건을 포함해 34건, 종료코드 1
+    cloud/               클라우드 설정 내보내기. AWS 정책(aws-policy.json), GCP VM(vm-instance.json)
+    config/              서드파티 콜백과 토큰 허용 목록(integrations.json)
+    host/                호스트 설정 사본. 숨긴 바이너리를 띄우는 crontab, .bashrc
+    logs/                공격 시도가 남은 로그(nextjs-error.log, nginx-access.log)
+    public/              시크릿이 들어간 빌드 산출물(app.bundle.js)
+    scripts/             Cloudflare 글로벌 API 키를 쓰는 DNS 갱신 스크립트(dns-update.js)
+src/                     스캐너 소스(TypeScript)
+  modules/               검사 모듈 아홉 개와 목록(index.ts). 모듈 하나가 파일 하나다
+test/                    자체 테스트(run.ts). 두 예제에 스캐너를 돌려 조치 전후를 검증한다
+action.yml               다른 저장소가 쓰는 composite GitHub Action. scan을 돌려 SARIF를 낸다
+ONCHAIN-FORENSICS.md     investigate-c2가 복원한 온체인 증거와 재현 방법
+```
+
+`src/` 바로 아래에는 명령줄 진입점 `cli.ts`, 스캔을 돌리는 `scanner.ts`, 온체인 조사 `investigate.ts`,
+출력 형식별 `report.ts`(터미널), `reportHtml.ts`, `reportSarif.ts`, 공용 타입 `types.ts`와 파일 순회 도구
+`util.ts`가 있습니다.
 
 ## CI 연동
 

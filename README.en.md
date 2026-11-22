@@ -135,6 +135,39 @@ node dist/src/cli.js scan <dir> --sarif > trustline.sarif  # SARIF 2.1.0
 Exit code is non-zero when any critical or high finding is present, so it drops
 into CI.
 
+## Layout
+
+The tree lists the top-level folders down to three levels and the top-level files. Paths are
+counted from the repo root. Everything under `examples/` is synthetic: there are no real
+secrets or hostnames.
+
+```
+.github/workflows/       CI for this repo. Runs pnpm build and pnpm test on every push and PR
+data/                    Data that scan matches against. advisories.json (dependency advisories), iocs.json (known malicious indicators)
+examples/                Synthetic inputs for testing scan. A before and after pair
+  safe/                  After the fix. scan reports 0 findings, exit code 0
+    host/                Host config copies. crontab, .bashrc
+    logs/                Application log (app.log)
+    public/              Build output served to browsers (app.bundle.js). No secrets
+  vulnerable/            Before the fix. scan reports 34 findings including 18 critical, exit code 1
+    cloud/               Cloud config exports. AWS policy (aws-policy.json), GCP VM (vm-instance.json)
+    config/              Third-party callbacks and token allowlist (integrations.json)
+    host/                Host config copies. A crontab that launches a hidden binary, .bashrc
+    logs/                Logs holding attack attempts (nextjs-error.log, nginx-access.log)
+    public/              Build output with secrets inside (app.bundle.js)
+    scripts/             A DNS update script that uses a Cloudflare global API key (dns-update.js)
+src/                     Scanner source (TypeScript)
+  modules/               Nine scan modules and their list (index.ts). One module per file
+test/                    Own tests (run.ts). Runs the scanner on both examples and checks before and after
+action.yml               Composite GitHub Action other repos use. Runs scan and writes SARIF
+ONCHAIN-FORENSICS.md     On-chain evidence that investigate-c2 recovers, and how to reproduce it
+```
+
+Directly under `src/` are the command line entry point `cli.ts`, the scan runner `scanner.ts`,
+the on-chain investigation `investigate.ts`, the report formats `report.ts` (terminal),
+`reportHtml.ts` and `reportSarif.ts`, the shared types in `types.ts` and the file walker in
+`util.ts`.
+
 ## CI integration
 
 `scan --sarif` emits SARIF 2.1.0, so findings show up in GitHub's Security tab

@@ -65,7 +65,6 @@ Modules run across three axes: **blast-radius minimization** (keep one breach
 from spreading), **detection** (catch the breach and the blind spots that hide
 it), and **matching** (is this infra already touching known attacker ground).
 
-
 - `vulnerable-dependency`: dependencies whose declared version matches a
   known-vulnerable release, checked against a small curated advisory set
   ([`data/advisories.json`](data/advisories.json)). This is not a general
@@ -137,31 +136,29 @@ into CI.
 
 ## Layout
 
-The tree lists the top-level folders down to three levels and the top-level files. Paths are
+The list lists the top-level folders down to three levels and the top-level files. Paths are
 counted from the repo root. Everything under `examples/` is synthetic: there are no real
 secrets or hostnames.
 
-```
-.github/workflows/       CI for this repo. Runs pnpm build and pnpm test on every push and PR
-data/                    Data that scan matches against. advisories.json (dependency advisories), iocs.json (known malicious indicators)
-examples/                Synthetic inputs for testing scan. A before and after pair
-  safe/                  After the fix. scan reports 0 findings, exit code 0
-    host/                Host config copies. crontab, .bashrc
-    logs/                Application log (app.log)
-    public/              Build output served to browsers (app.bundle.js). No secrets
-  vulnerable/            Before the fix. scan reports 34 findings including 18 critical, exit code 1
-    cloud/               Cloud config exports. AWS policy (aws-policy.json), GCP VM (vm-instance.json)
-    config/              Third-party callbacks and token allowlist (integrations.json)
-    host/                Host config copies. A crontab that launches a hidden binary, .bashrc
-    logs/                Logs holding attack attempts (nextjs-error.log, nginx-access.log)
-    public/              Build output with secrets inside (app.bundle.js)
-    scripts/             A DNS update script that uses a Cloudflare global API key (dns-update.js)
-src/                     Scanner source (TypeScript)
-  modules/               Nine scan modules and their list (index.ts). One module per file
-test/                    Own tests (run.ts). Runs the scanner on both examples and checks before and after
-action.yml               Composite GitHub Action other repos use. Runs scan and writes SARIF
-ONCHAIN-FORENSICS.md     On-chain evidence that investigate-c2 recovers, and how to reproduce it
-```
+- [`.github/workflows/`](.github/workflows/) CI for this repo. Runs pnpm build and pnpm test on every push and PR
+- [`data/`](data/) Data that scan matches against. advisories.json (dependency advisories), iocs.json (known malicious indicators)
+- [`examples/`](examples/) Synthetic inputs for testing scan. A before and after pair
+  - [`safe/`](examples/safe/) After the fix. scan reports 0 findings, exit code 0
+    - [`host/`](examples/safe/host/) Host config copies. crontab, .bashrc
+    - [`logs/`](examples/safe/logs/) Application log (app.log)
+    - [`public/`](examples/safe/public/) Build output served to browsers (app.bundle.js). No secrets
+  - [`vulnerable/`](examples/vulnerable/) Before the fix. scan reports 34 findings including 18 critical, exit code 1
+    - [`cloud/`](examples/vulnerable/cloud/) Cloud config exports. AWS policy (aws-policy.json), GCP VM (vm-instance.json)
+    - [`config/`](examples/vulnerable/config/) Third-party callbacks and token allowlist (integrations.json)
+    - [`host/`](examples/vulnerable/host/) Host config copies. A crontab that launches a hidden binary, .bashrc
+    - [`logs/`](examples/vulnerable/logs/) Logs holding attack attempts (nextjs-error.log, nginx-access.log)
+    - [`public/`](examples/vulnerable/public/) Build output with secrets inside (app.bundle.js)
+    - [`scripts/`](examples/vulnerable/scripts/) A DNS update script that uses a Cloudflare global API key (dns-update.js)
+- [`src/`](src/) Scanner source (TypeScript)
+  - [`modules/`](src/modules/) Nine scan modules and their list (index.ts). One module per file
+- [`test/`](test/) Own tests (run.ts). Runs the scanner on both examples and checks before and after
+- [`action.yml`](action.yml) Composite GitHub Action other repos use. Runs scan and writes SARIF
+- [`ONCHAIN-FORENSICS.md`](ONCHAIN-FORENSICS.md) On-chain evidence that investigate-c2 recovers, and how to reproduce it
 
 Directly under `src/` are the command line entry point `cli.ts`, the scan runner `scanner.ts`,
 the on-chain investigation `investigate.ts`, the report formats `report.ts` (terminal),

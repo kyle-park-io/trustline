@@ -61,7 +61,6 @@ dApp 보안의 관심은 스마트 컨트랙트로 쏠리지만, 실제 사고�
 모듈은 세 축으로 돕니다. **반경 최소화**(한 번의 침해가 번지지 않게), **탐지**(침해와
 그것을 가리는 사각을 잡기), **대조**(이 인프라가 이미 알려진 공격자 영역과 연결돼 있는가).
 
-
 - `vulnerable-dependency`: 선언된 버전이 알려진 취약 릴리스와 일치하는 의존성을,
   소규모 큐레이션 어드바이저리 셋([`data/advisories.json`](data/advisories.json))과
   대조합니다. 범용 npm-audit가 아닙니다. 이 셋은 이번 사고의 진입점(React2Shell,
@@ -126,27 +125,25 @@ critical 또는 high가 하나라도 있으면 종료코드가 0이 아니라서
 저장소 맨 위에서 세 단계까지의 폴더와 맨 위 파일을 적었습니다. 경로는 저장소 루트에서 셉니다.
 `examples/` 아래 파일은 모두 합성한 값이고, 실제 시크릿과 호스트명은 없습니다.
 
-```
-.github/workflows/       이 저장소의 CI. push와 PR마다 pnpm build와 pnpm test를 돌린다
-data/                    scan이 대조하는 데이터. advisories.json(의존성 어드바이저리), iocs.json(알려진 악성 지표)
-examples/                scan을 시험하는 합성 입력. 조치 전과 조치 후 한 쌍
-  safe/                  조치 후. scan하면 0건, 종료코드 0
-    host/                호스트 설정 사본. crontab, .bashrc
-    logs/                애플리케이션 로그(app.log)
-    public/              브라우저에 내려가는 빌드 산출물(app.bundle.js). 시크릿이 없다
-  vulnerable/            조치 전. scan하면 critical 18건을 포함해 34건, 종료코드 1
-    cloud/               클라우드 설정 내보내기. AWS 정책(aws-policy.json), GCP VM(vm-instance.json)
-    config/              서드파티 콜백과 토큰 허용 목록(integrations.json)
-    host/                호스트 설정 사본. 숨긴 바이너리를 띄우는 crontab, .bashrc
-    logs/                공격 시도가 남은 로그(nextjs-error.log, nginx-access.log)
-    public/              시크릿이 들어간 빌드 산출물(app.bundle.js)
-    scripts/             Cloudflare 글로벌 API 키를 쓰는 DNS 갱신 스크립트(dns-update.js)
-src/                     스캐너 소스(TypeScript)
-  modules/               검사 모듈 아홉 개와 목록(index.ts). 모듈 하나가 파일 하나다
-test/                    자체 테스트(run.ts). 두 예제에 스캐너를 돌려 조치 전후를 검증한다
-action.yml               다른 저장소가 쓰는 composite GitHub Action. scan을 돌려 SARIF를 낸다
-ONCHAIN-FORENSICS.md     investigate-c2가 복원한 온체인 증거와 재현 방법
-```
+- [`.github/workflows/`](.github/workflows/) 이 저장소의 CI. push와 PR마다 pnpm build와 pnpm test를 돌린다
+- [`data/`](data/) scan이 대조하는 데이터. advisories.json(의존성 어드바이저리), iocs.json(알려진 악성 지표)
+- [`examples/`](examples/) scan을 시험하는 합성 입력. 조치 전과 조치 후 한 쌍
+  - [`safe/`](examples/safe/) 조치 후. scan하면 0건, 종료코드 0
+    - [`host/`](examples/safe/host/) 호스트 설정 사본. crontab, .bashrc
+    - [`logs/`](examples/safe/logs/) 애플리케이션 로그(app.log)
+    - [`public/`](examples/safe/public/) 브라우저에 내려가는 빌드 산출물(app.bundle.js). 시크릿이 없다
+  - [`vulnerable/`](examples/vulnerable/) 조치 전. scan하면 critical 18건을 포함해 34건, 종료코드 1
+    - [`cloud/`](examples/vulnerable/cloud/) 클라우드 설정 내보내기. AWS 정책(aws-policy.json), GCP VM(vm-instance.json)
+    - [`config/`](examples/vulnerable/config/) 서드파티 콜백과 토큰 허용 목록(integrations.json)
+    - [`host/`](examples/vulnerable/host/) 호스트 설정 사본. 숨긴 바이너리를 띄우는 crontab, .bashrc
+    - [`logs/`](examples/vulnerable/logs/) 공격 시도가 남은 로그(nextjs-error.log, nginx-access.log)
+    - [`public/`](examples/vulnerable/public/) 시크릿이 들어간 빌드 산출물(app.bundle.js)
+    - [`scripts/`](examples/vulnerable/scripts/) Cloudflare 글로벌 API 키를 쓰는 DNS 갱신 스크립트(dns-update.js)
+- [`src/`](src/) 스캐너 소스(TypeScript)
+  - [`modules/`](src/modules/) 검사 모듈 아홉 개와 목록(index.ts). 모듈 하나가 파일 하나다
+- [`test/`](test/) 자체 테스트(run.ts). 두 예제에 스캐너를 돌려 조치 전후를 검증한다
+- [`action.yml`](action.yml) 다른 저장소가 쓰는 composite GitHub Action. scan을 돌려 SARIF를 낸다
+- [`ONCHAIN-FORENSICS.md`](ONCHAIN-FORENSICS.md) investigate-c2가 복원한 온체인 증거와 재현 방법
 
 `src/` 바로 아래에는 명령줄 진입점 `cli.ts`, 스캔을 돌리는 `scanner.ts`, 온체인 조사 `investigate.ts`,
 출력 형식별 `report.ts`(터미널), `reportHtml.ts`, `reportSarif.ts`, 공용 타입 `types.ts`와 파일 순회 도구

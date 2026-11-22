@@ -136,29 +136,31 @@ into CI.
 
 ## Layout
 
-This list covers the top-level folders down to three levels and the top-level files. Paths are
+This table covers the top-level folders down to three levels and the top-level files. Paths are
 counted from the repo root. Everything under `examples/` is synthetic: there are no real
 secrets or hostnames.
 
-- [`.github/workflows/`](.github/workflows/) CI for this repo. Runs pnpm build and pnpm test on every push and PR
-- [`data/`](data/) Data that scan matches against. advisories.json (dependency advisories), iocs.json (known malicious indicators)
-- [`examples/`](examples/) Synthetic inputs for testing scan. A before and after pair
-  - [`safe/`](examples/safe/) After the fix. scan reports 0 findings, exit code 0
-    - [`host/`](examples/safe/host/) Host config copies. crontab, .bashrc
-    - [`logs/`](examples/safe/logs/) Application log (app.log)
-    - [`public/`](examples/safe/public/) Build output served to browsers (app.bundle.js). No secrets
-  - [`vulnerable/`](examples/vulnerable/) Before the fix. scan reports 34 findings including 18 critical, exit code 1
-    - [`cloud/`](examples/vulnerable/cloud/) Cloud config exports. AWS policy (aws-policy.json), GCP VM (vm-instance.json)
-    - [`config/`](examples/vulnerable/config/) Third-party callbacks and token allowlist (integrations.json)
-    - [`host/`](examples/vulnerable/host/) Host config copies. A crontab that launches a hidden binary, .bashrc
-    - [`logs/`](examples/vulnerable/logs/) Logs holding attack attempts (nextjs-error.log, nginx-access.log)
-    - [`public/`](examples/vulnerable/public/) Build output with secrets inside (app.bundle.js)
-    - [`scripts/`](examples/vulnerable/scripts/) A DNS update script that uses a Cloudflare global API key (dns-update.js)
-- [`src/`](src/) Scanner source (TypeScript)
-  - [`modules/`](src/modules/) Nine scan modules and their list (index.ts). One module per file
-- [`test/`](test/) Own tests (run.ts). Runs the scanner on both examples and checks before and after
-- [`action.yml`](action.yml) Composite GitHub Action other repos use. Runs scan and writes SARIF
-- [`ONCHAIN-FORENSICS.md`](ONCHAIN-FORENSICS.md) On-chain evidence that investigate-c2 recovers, and how to reproduce it
+| Path | Description |
+|---|---|
+| [`.github/workflows/`](.github/workflows/) | CI for this repo. Runs pnpm build and pnpm test on every push and PR |
+| [`data/`](data/) | Data that scan matches against. advisories.json (dependency advisories), iocs.json (known malicious indicators) |
+| [`examples/`](examples/) | Synthetic inputs for testing scan. A before and after pair |
+| &emsp;&emsp;[`safe/`](examples/safe/) | After the fix. scan reports 0 findings, exit code 0 |
+| &emsp;&emsp;&emsp;&emsp;[`host/`](examples/safe/host/) | Host config copies. crontab, .bashrc |
+| &emsp;&emsp;&emsp;&emsp;[`logs/`](examples/safe/logs/) | Application log (app.log) |
+| &emsp;&emsp;&emsp;&emsp;[`public/`](examples/safe/public/) | Build output served to browsers (app.bundle.js). No secrets |
+| &emsp;&emsp;[`vulnerable/`](examples/vulnerable/) | Before the fix. scan reports 34 findings including 18 critical, exit code 1 |
+| &emsp;&emsp;&emsp;&emsp;[`cloud/`](examples/vulnerable/cloud/) | Cloud config exports. AWS policy (aws-policy.json), GCP VM (vm-instance.json) |
+| &emsp;&emsp;&emsp;&emsp;[`config/`](examples/vulnerable/config/) | Third-party callbacks and token allowlist (integrations.json) |
+| &emsp;&emsp;&emsp;&emsp;[`host/`](examples/vulnerable/host/) | Host config copies. A crontab that launches a hidden binary, .bashrc |
+| &emsp;&emsp;&emsp;&emsp;[`logs/`](examples/vulnerable/logs/) | Logs holding attack attempts (nextjs-error.log, nginx-access.log) |
+| &emsp;&emsp;&emsp;&emsp;[`public/`](examples/vulnerable/public/) | Build output with secrets inside (app.bundle.js) |
+| &emsp;&emsp;&emsp;&emsp;[`scripts/`](examples/vulnerable/scripts/) | A DNS update script that uses a Cloudflare global API key (dns-update.js) |
+| [`src/`](src/) | Scanner source (TypeScript) |
+| &emsp;&emsp;[`modules/`](src/modules/) | Nine scan modules and their list (index.ts). One module per file |
+| [`test/`](test/) | Own tests (run.ts). Runs the scanner on both examples and checks before and after |
+| [`action.yml`](action.yml) | Composite GitHub Action other repos use. Runs scan and writes SARIF |
+| [`ONCHAIN-FORENSICS.md`](ONCHAIN-FORENSICS.md) | On-chain evidence that investigate-c2 recovers, and how to reproduce it |
 
 Directly under `src/` are the command line entry point `cli.ts`, the scan runner `scanner.ts`,
 the on-chain investigation `investigate.ts`, the report formats `report.ts` (terminal),

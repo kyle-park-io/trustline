@@ -134,39 +134,6 @@ node dist/src/cli.js scan <dir> --sarif > trustline.sarif  # SARIF 2.1.0
 Exit code is non-zero when any critical or high finding is present, so it drops
 into CI.
 
-## Layout
-
-This table covers the top-level folders down to three levels and the top-level files. Paths are
-counted from the repo root. Everything under `examples/` is synthetic: there are no real
-secrets or hostnames.
-
-| Path | Description |
-|---|---|
-| [`.github/workflows/`](.github/workflows/) | CI for this repo. Runs pnpm build and pnpm test on every push and PR |
-| [`data/`](data/) | Data that scan matches against. advisories.json (dependency advisories), iocs.json (known malicious indicators) |
-| [`examples/`](examples/) | Synthetic inputs for testing scan. A before and after pair |
-| &nbsp;&nbsp;&nbsp;&nbsp;[`safe/`](examples/safe/) | After the fix. scan reports 0 findings, exit code 0 |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`host/`](examples/safe/host/) | Host config copies. crontab, .bashrc |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`logs/`](examples/safe/logs/) | Application log (app.log) |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`public/`](examples/safe/public/) | Build output served to browsers (app.bundle.js). No secrets |
-| &nbsp;&nbsp;&nbsp;&nbsp;[`vulnerable/`](examples/vulnerable/) | Before the fix. scan reports 34 findings including 18 critical, exit code 1 |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`cloud/`](examples/vulnerable/cloud/) | Cloud config exports. AWS policy (aws-policy.json), GCP VM (vm-instance.json) |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`config/`](examples/vulnerable/config/) | Third-party callbacks and token allowlist (integrations.json) |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`host/`](examples/vulnerable/host/) | Host config copies. A crontab that launches a hidden binary, .bashrc |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`logs/`](examples/vulnerable/logs/) | Logs holding attack attempts (nextjs-error.log, nginx-access.log) |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`public/`](examples/vulnerable/public/) | Build output with secrets inside (app.bundle.js) |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`scripts/`](examples/vulnerable/scripts/) | A DNS update script that uses a Cloudflare global API key (dns-update.js) |
-| [`src/`](src/) | Scanner source (TypeScript) |
-| &nbsp;&nbsp;&nbsp;&nbsp;[`modules/`](src/modules/) | Nine scan modules and their list (index.ts). One module per file |
-| [`test/`](test/) | Own tests (run.ts). Runs the scanner on both examples and checks before and after |
-| [`action.yml`](action.yml) | Composite GitHub Action other repos use. Runs scan and writes SARIF |
-| [`ONCHAIN-FORENSICS.md`](ONCHAIN-FORENSICS.md) | On-chain evidence that investigate-c2 recovers, and how to reproduce it |
-
-Directly under `src/` are the command line entry point `cli.ts`, the scan runner `scanner.ts`,
-the on-chain investigation `investigate.ts`, the report formats `report.ts` (terminal),
-`reportHtml.ts` and `reportSarif.ts`, the shared types in `types.ts` and the file walker in
-`util.ts`.
-
 ## CI integration
 
 `scan --sarif` emits SARIF 2.1.0, so findings show up in GitHub's Security tab
@@ -252,6 +219,39 @@ node dist/src/cli.js scan examples/safe          # clean, exit 0
 `examples/vulnerable` is the "before" (mistakes present); `examples/safe` is the
 "after" (the same stack, fixed). Nothing here touches a real service; it only
 reads local files.
+
+## Layout
+
+This table covers the top-level folders down to three levels and the top-level files. Paths are
+counted from the repo root. Everything under `examples/` is synthetic: there are no real
+secrets or hostnames.
+
+| Path | Description |
+|---|---|
+| [`.github/workflows/`](.github/workflows/) | CI for this repo. Runs pnpm build and pnpm test on every push and PR |
+| [`data/`](data/) | Data that scan matches against. advisories.json (dependency advisories), iocs.json (known malicious indicators) |
+| [`examples/`](examples/) | Synthetic inputs for testing scan. A before and after pair |
+| &nbsp;&nbsp;&nbsp;&nbsp;[`safe/`](examples/safe/) | After the fix. scan reports 0 findings, exit code 0 |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`host/`](examples/safe/host/) | Host config copies. crontab, .bashrc |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`logs/`](examples/safe/logs/) | Application log (app.log) |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`public/`](examples/safe/public/) | Build output served to browsers (app.bundle.js). No secrets |
+| &nbsp;&nbsp;&nbsp;&nbsp;[`vulnerable/`](examples/vulnerable/) | Before the fix. scan reports 34 findings including 18 critical, exit code 1 |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`cloud/`](examples/vulnerable/cloud/) | Cloud config exports. AWS policy (aws-policy.json), GCP VM (vm-instance.json) |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`config/`](examples/vulnerable/config/) | Third-party callbacks and token allowlist (integrations.json) |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`host/`](examples/vulnerable/host/) | Host config copies. A crontab that launches a hidden binary, .bashrc |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`logs/`](examples/vulnerable/logs/) | Logs holding attack attempts (nextjs-error.log, nginx-access.log) |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`public/`](examples/vulnerable/public/) | Build output with secrets inside (app.bundle.js) |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`scripts/`](examples/vulnerable/scripts/) | A DNS update script that uses a Cloudflare global API key (dns-update.js) |
+| [`src/`](src/) | Scanner source (TypeScript) |
+| &nbsp;&nbsp;&nbsp;&nbsp;[`modules/`](src/modules/) | Nine scan modules and their list (index.ts). One module per file |
+| [`test/`](test/) | Own tests (run.ts). Runs the scanner on both examples and checks before and after |
+| [`action.yml`](action.yml) | Composite GitHub Action other repos use. Runs scan and writes SARIF |
+| [`ONCHAIN-FORENSICS.md`](ONCHAIN-FORENSICS.md) | On-chain evidence that investigate-c2 recovers, and how to reproduce it |
+
+Directly under `src/` are the command line entry point `cli.ts`, the scan runner `scanner.ts`,
+the on-chain investigation `investigate.ts`, the report formats `report.ts` (terminal),
+`reportHtml.ts` and `reportSarif.ts`, the shared types in `types.ts` and the file walker in
+`util.ts`.
 
 ## Test
 

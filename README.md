@@ -120,37 +120,6 @@ node dist/src/cli.js scan <dir> --sarif > trustline.sarif  # SARIF 2.1.0
 
 critical 또는 high가 하나라도 있으면 종료코드가 0이 아니라서, 그대로 CI에 붙습니다.
 
-## 구조
-
-저장소 맨 위에서 세 단계까지의 폴더와 맨 위 파일을 적었습니다. 경로는 저장소 루트에서 셉니다.
-`examples/` 아래 파일은 모두 합성한 값이고, 실제 시크릿과 호스트명은 없습니다.
-
-| 경로 | 설명 |
-|---|---|
-| [`.github/workflows/`](.github/workflows/) | 이 저장소의 CI. push와 PR마다 pnpm build와 pnpm test를 돌린다 |
-| [`data/`](data/) | scan이 대조하는 데이터. advisories.json(의존성 어드바이저리), iocs.json(알려진 악성 지표) |
-| [`examples/`](examples/) | scan을 시험하는 합성 입력. 조치 전과 조치 후 한 쌍 |
-| &nbsp;&nbsp;&nbsp;&nbsp;[`safe/`](examples/safe/) | 조치 후. scan하면 0건, 종료코드 0 |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`host/`](examples/safe/host/) | 호스트 설정 사본. crontab, .bashrc |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`logs/`](examples/safe/logs/) | 애플리케이션 로그(app.log) |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`public/`](examples/safe/public/) | 브라우저에 내려가는 빌드 산출물(app.bundle.js). 시크릿이 없다 |
-| &nbsp;&nbsp;&nbsp;&nbsp;[`vulnerable/`](examples/vulnerable/) | 조치 전. scan하면 critical 18건을 포함해 34건, 종료코드 1 |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`cloud/`](examples/vulnerable/cloud/) | 클라우드 설정 내보내기. AWS 정책(aws-policy.json), GCP VM(vm-instance.json) |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`config/`](examples/vulnerable/config/) | 서드파티 콜백과 토큰 허용 목록(integrations.json) |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`host/`](examples/vulnerable/host/) | 호스트 설정 사본. 숨긴 바이너리를 띄우는 crontab, .bashrc |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`logs/`](examples/vulnerable/logs/) | 공격 시도가 남은 로그(nextjs-error.log, nginx-access.log) |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`public/`](examples/vulnerable/public/) | 시크릿이 들어간 빌드 산출물(app.bundle.js) |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`scripts/`](examples/vulnerable/scripts/) | Cloudflare 글로벌 API 키를 쓰는 DNS 갱신 스크립트(dns-update.js) |
-| [`src/`](src/) | 스캐너 소스(TypeScript) |
-| &nbsp;&nbsp;&nbsp;&nbsp;[`modules/`](src/modules/) | 검사 모듈 아홉 개와 목록(index.ts). 모듈 하나가 파일 하나다 |
-| [`test/`](test/) | 자체 테스트(run.ts). 두 예제에 스캐너를 돌려 조치 전후를 검증한다 |
-| [`action.yml`](action.yml) | 다른 저장소가 쓰는 composite GitHub Action. scan을 돌려 SARIF를 낸다 |
-| [`ONCHAIN-FORENSICS.md`](ONCHAIN-FORENSICS.md) | investigate-c2가 복원한 온체인 증거와 재현 방법 |
-
-`src/` 바로 아래에는 명령줄 진입점 `cli.ts`, 스캔을 돌리는 `scanner.ts`, 온체인 조사 `investigate.ts`,
-출력 형식별 `report.ts`(터미널), `reportHtml.ts`, `reportSarif.ts`, 공용 타입 `types.ts`와 파일 순회 도구
-`util.ts`가 있습니다.
-
 ## CI 연동
 
 `scan --sarif`는 SARIF 2.1.0을 내보내, 발견 항목이 GitHub Security 탭과 PR 주석에
@@ -232,6 +201,37 @@ node dist/src/cli.js scan examples/safe          # clean, exit 0
 `examples/vulnerable`는 "조치 전"(실수가 있는 상태), `examples/safe`는 "조치
 후"(같은 스택을 고친 상태)입니다. 여기의 어떤 것도 실제 서비스를 건드리지 않고 로컬
 파일만 읽습니다.
+
+## 구조
+
+저장소 맨 위에서 세 단계까지의 폴더와 맨 위 파일을 적었습니다. 경로는 저장소 루트에서 셉니다.
+`examples/` 아래 파일은 모두 합성한 값이고, 실제 시크릿과 호스트명은 없습니다.
+
+| 경로 | 설명 |
+|---|---|
+| [`.github/workflows/`](.github/workflows/) | 이 저장소의 CI. push와 PR마다 pnpm build와 pnpm test를 돌린다 |
+| [`data/`](data/) | scan이 대조하는 데이터. advisories.json(의존성 어드바이저리), iocs.json(알려진 악성 지표) |
+| [`examples/`](examples/) | scan을 시험하는 합성 입력. 조치 전과 조치 후 한 쌍 |
+| &nbsp;&nbsp;&nbsp;&nbsp;[`safe/`](examples/safe/) | 조치 후. scan하면 0건, 종료코드 0 |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`host/`](examples/safe/host/) | 호스트 설정 사본. crontab, .bashrc |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`logs/`](examples/safe/logs/) | 애플리케이션 로그(app.log) |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`public/`](examples/safe/public/) | 브라우저에 내려가는 빌드 산출물(app.bundle.js). 시크릿이 없다 |
+| &nbsp;&nbsp;&nbsp;&nbsp;[`vulnerable/`](examples/vulnerable/) | 조치 전. scan하면 critical 18건을 포함해 34건, 종료코드 1 |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`cloud/`](examples/vulnerable/cloud/) | 클라우드 설정 내보내기. AWS 정책(aws-policy.json), GCP VM(vm-instance.json) |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`config/`](examples/vulnerable/config/) | 서드파티 콜백과 토큰 허용 목록(integrations.json) |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`host/`](examples/vulnerable/host/) | 호스트 설정 사본. 숨긴 바이너리를 띄우는 crontab, .bashrc |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`logs/`](examples/vulnerable/logs/) | 공격 시도가 남은 로그(nextjs-error.log, nginx-access.log) |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`public/`](examples/vulnerable/public/) | 시크릿이 들어간 빌드 산출물(app.bundle.js) |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`scripts/`](examples/vulnerable/scripts/) | Cloudflare 글로벌 API 키를 쓰는 DNS 갱신 스크립트(dns-update.js) |
+| [`src/`](src/) | 스캐너 소스(TypeScript) |
+| &nbsp;&nbsp;&nbsp;&nbsp;[`modules/`](src/modules/) | 검사 모듈 아홉 개와 목록(index.ts). 모듈 하나가 파일 하나다 |
+| [`test/`](test/) | 자체 테스트(run.ts). 두 예제에 스캐너를 돌려 조치 전후를 검증한다 |
+| [`action.yml`](action.yml) | 다른 저장소가 쓰는 composite GitHub Action. scan을 돌려 SARIF를 낸다 |
+| [`ONCHAIN-FORENSICS.md`](ONCHAIN-FORENSICS.md) | investigate-c2가 복원한 온체인 증거와 재현 방법 |
+
+`src/` 바로 아래에는 명령줄 진입점 `cli.ts`, 스캔을 돌리는 `scanner.ts`, 온체인 조사 `investigate.ts`,
+출력 형식별 `report.ts`(터미널), `reportHtml.ts`, `reportSarif.ts`, 공용 타입 `types.ts`와 파일 순회 도구
+`util.ts`가 있습니다.
 
 ## 테스트
 

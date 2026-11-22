@@ -136,7 +136,7 @@ into CI.
 
 ## Layout
 
-The list lists the top-level folders down to three levels and the top-level files. Paths are
+This list covers the top-level folders down to three levels and the top-level files. Paths are
 counted from the repo root. Everything under `examples/` is synthetic: there are no real
 secrets or hostnames.
 
